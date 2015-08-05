@@ -769,6 +769,14 @@ public class RtpChannel
     }
 
     /**
+     * Returns the <tt>MediaType</tt> of this <tt>RtpChannel</tt>.
+     */
+    public MediaType getMediaType()
+    {
+        return getContent().getMediaType();
+    }
+
+    /**
      * Returns the number of received bytes since the last time the
      * method was called.
      *

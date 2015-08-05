@@ -19,6 +19,7 @@ import java.net.*;
 
 import org.ice4j.socket.*;
 import org.jitsi.impl.neomedia.rtp.translator.*;
+import org.jitsi.service.neomedia.*;
 import org.jitsi.util.*;
 
 /**
@@ -139,6 +140,18 @@ class RtpChannelDatagramFilter
             {
                 if (channelSSRC == packetSenderSSRC)
                     return true;
+            }
+
+            /*
+             * FIXME Exception for sender SSRC=1.
+             * Chrome uses SSRC=1 for sender SSRC in RTCP packets if there are
+             * no send media streams.
+             */
+            if (channelSSRCs.length == 0 &&
+                packetSenderSSRC == 1 &&
+                MediaType.VIDEO.equals(channel.getMediaType()))
+            {
+                return true;
             }
         }
         return false;
